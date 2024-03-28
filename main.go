@@ -1,46 +1,35 @@
 package main
 
 import (
-	"fmt"
+	"goApi/controllers"
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 )
-
-type User struct {
-	ID   uint
-	Name string
-}
 
 func main() {
 	godotenv.Load()
-	dbHost := os.Getenv("DB_HOST")
-	dbUser := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
-
-	connectionString := fmt.Sprintf("%s:%s@tcp(%s)/%s", dbUser, dbPassword, dbHost, dbName)
-	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
-	if err != nil {
-		panic("Error al conectar con la base de datos MySQL")
-	}
 	r := gin.Default()
+	db := controllers.ConnectDB()
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"data": "hello world"})
 	})
-	r.GET("/ddbb", func(c *gin.Context) {
-		// Migrar el modelo User a la base de datos (crear la tabla si no existe)
-		db.AutoMigrate(&User{})
+	r.GET("/users/create", func(c *gin.Context) {
+		controllers.CreateUsers(c, db)
 	})
-	r.GET("/users", func(c *gin.Context) {
-		var users []User
-		db.Find(&users)
-		c.JSON(http.StatusOK, users)
+	r.GET("/users/get", func(c *gin.Context) {
+		controllers.GetUsers(c, db)
+	})
+	r.GET("/user/get", func(c *gin.Context) {
+		controllers.GetUserId(c, db)
+	})
+	r.POST("/users/post", func(c *gin.Context) {
+		controllers.PostUsers(c, db)
+	})
+	r.POST("/user/post", func(c *gin.Context) {
+		controllers.PostUserId(c, db)
 	})
 
 	r.Run()

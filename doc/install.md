@@ -1,7 +1,7 @@
 # install
 mkdir /var/www/html/goApi
 cd /var/wwww/html/goApi
-go mod init api
+go mod init goApi
 go get github.com/gin-gonic/gin
 go get gorm.io/driver/mysql gorm.io/gorm
 go get github.com/joho/godotenv
