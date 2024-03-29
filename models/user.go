@@ -7,6 +7,13 @@ type User struct {
 	Name string `json:"name"`
 }
 
+/*
+//Para el endpoint "PostUserId" pasando el JSON {"userId":1} como parámetro POST
+
+	type UserIDRequest struct {
+		UserID uint `json:"userId"`
+	}
+*/
 type UserIDRequest struct {
-	UserID uint `json:"userId"`
+	UserID uint `form:"userId" binding:"required"`
 }
