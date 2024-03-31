@@ -1,8 +1,16 @@
-basePath: /api/v1
+basePath: /
+definitions:
+  models.User:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
 externalDocs:
   description: OpenAPI
   url: https://swagger.io/resources/open-api/
-host: localhost:8080
+host: localhost:8081
 info:
   contact:
     email: support@swagger.io
@@ -15,8 +23,137 @@ info:
   termsOfService: http://swagger.io/terms/
   title: Swagger Example API
   version: "1.0"
-paths: {}
+paths:
+  /user/delete/{id}:
+    delete:
+      description: Endpoint para eliminar por completo un usuario en la tabla "users"
+        a través de su ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "204":
+          description: No Content
+      summary: Borrado de un usuario
+      tags:
+      - Usuarios
+  /user/get:
+    get:
+      consumes:
+      - multipart/form-data
+      description: Endpoint para recoger todos los datos de un único usuario en la
+        tabla "users" a través de su ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Obtención de un usuario
+      tags:
+      - Usuarios
+  /user/post:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Endpoint para recoger todos los datos de un único usuario en la
+        tabla "users" a través de su ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Obtención de un usuario
+      tags:
+      - Usuarios
+  /user/update:
+    patch:
+      consumes:
+      - application/json
+      description: Endpoint para actualizar los datos de un usuario en la tabla "users"
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Actualización de un usuario
+      tags:
+      - Usuarios
+  /users/create:
+    post:
+      consumes:
+      - application/json
+      description: Endpoint para crear un nuevo registro en la tabla "users"
+      parameters:
+      - description: Información del usuario a crear
+        in: body
+        name: input
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/models.User'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Creación de usuarios
+      tags:
+      - Usuarios
+  /users/get:
+    get:
+      description: Endpoint para recoger todos los datos de los usuarios en la tabla
+        "users"
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Obtención de usuarios
+      tags:
+      - Usuarios
+  /users/post:
+    post:
+      description: Endpoint para recoger todos los datos de los usuarios en la tabla
+        "users"
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Obtención de usuarios
+      tags:
+      - Usuarios
 securityDefinitions:
   BasicAuth:
     type: basic
 swagger: "2.0"
+tags:
+- description: Endpoints para el manejo y control de los usuarios en la plataforma.
+  externalDocs:
+    description: Best example documentation
+    url: https://example.com
+  name: Usuarios

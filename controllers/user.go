@@ -16,6 +16,15 @@ func CreateUsersTable(c *gin.Context, db *gorm.DB) {
 	db.AutoMigrate(models.User{})
 }
 
+// CreateUsers		godoc
+// @Summary			Creación de usuarios
+// @Description		Endpoint para crear un nuevo registro en la tabla "users"
+// @Tags			Usuarios
+// @Accept			application/json
+// @Produce			application/json
+// @Param			input body []models.User true "Información del usuario a crear"
+// @Success			200 {object} []models.User
+// @Router			/users/create [post]
 func CreateUsers(c *gin.Context, db *gorm.DB) {
 	var users []models.User
 	if err := c.BindJSON(&users); err != nil {
@@ -31,12 +40,27 @@ func CreateUsers(c *gin.Context, db *gorm.DB) {
 	c.JSON(http.StatusCreated, users)
 }
 
+// GetUsers			godoc
+// @Summary			Obtención de usuarios
+// @Description		Endpoint para recoger todos los datos de los usuarios en la tabla "users"
+// @Tags			Usuarios
+// @Produce			application/json
+// @Success			200 {object} []models.User
+// @Router			/users/get [get]
 func GetUsers(c *gin.Context, db *gorm.DB) {
 	var users []models.User
 	db.Find(&users)
 	c.JSON(http.StatusOK, users)
 }
 
+// GetUserId		godoc
+// @Summary			Obtención de un usuario
+// @Description		Endpoint para recoger todos los datos de un único usuario en la tabla "users" a través de su ID
+// @Tags			Usuarios
+// @Accept			multipart/form-data
+// @Produce			application/json
+// @Success			200 {object} models.User
+// @Router			/user/get [get]
 func GetUserId(c *gin.Context, db *gorm.DB) {
 	var userIDRequest models.UserIDRequest
 	var user models.User
@@ -52,6 +76,13 @@ func GetUserId(c *gin.Context, db *gorm.DB) {
 	c.JSON(http.StatusOK, user)
 }
 
+// PostUsers		godoc
+// @Summary			Obtención de usuarios
+// @Description		Endpoint para recoger todos los datos de los usuarios en la tabla "users"
+// @Tags			Usuarios
+// @Produce			application/json
+// @Success			200 {object} []models.User
+// @Router			/users/post [post]
 func PostUsers(c *gin.Context, db *gorm.DB) {
 	var users []models.User
 	db.Find(&users)
@@ -61,13 +92,22 @@ func PostUsers(c *gin.Context, db *gorm.DB) {
 	c.JSON(http.StatusOK, users)
 }
 
+// PostUserId		godoc
+// @Summary			Obtención de un usuario
+// @Description		Endpoint para recoger todos los datos de un único usuario en la tabla "users" a través de su ID
+// @Tags			Usuarios
+// @Accept			multipart/form-data
+// @Produce			application/json
+// @Success			200 {object} models.User
+// @Router			/user/post [post]
 func PostUserId(c *gin.Context, db *gorm.DB) {
 	var userIDRequest models.UserIDRequest
 	var user models.User
 	if err := c.ShouldBindWith(&userIDRequest, binding.Form); err != nil { //Para UserIDRequest con form:"userId"
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
-	} /*else if err := c.ShouldBindJSON(&userIDRequest); err != nil { //Para UserIDRequest con json:"userId"
+	}
+	/*if err := c.ShouldBindJSON(&userIDRequest); err != nil { //Para UserIDRequest con json:"userId"
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}*/
@@ -79,6 +119,14 @@ func PostUserId(c *gin.Context, db *gorm.DB) {
 	c.JSON(http.StatusOK, user)
 }
 
+// UpdateUser		godoc
+// @Summary			Actualización de un usuario
+// @Description		Endpoint para actualizar los datos de un usuario en la tabla "users"
+// @Tags			Usuarios
+// @Accept			application/json
+// @Produce			application/json
+// @Success			200 {object} models.User
+// @Router			/user/update [patch]
 func UpdateUser(c *gin.Context, db *gorm.DB) {
 	var updatedUser models.User
 	if err := c.BindJSON(&updatedUser); err != nil {
@@ -102,6 +150,14 @@ func UpdateUser(c *gin.Context, db *gorm.DB) {
 	c.JSON(http.StatusOK, existingUser)
 }
 
+// DeleteUser		godoc
+// @Summary			Borrado de un usuario
+// @Description		Endpoint para eliminar por completo un usuario en la tabla "users" a través de su ID
+// @Tags			Usuarios
+// @Produce			application/json
+// @Success			204 "No Content"
+// @Success			200 {object} map[string]string
+// @Router			/user/delete/{id} [delete]
 func DeleteUser(c *gin.Context, db *gorm.DB) {
 	var user models.User
 	userID, err := strconv.ParseUint(c.Param("id"), 10, 64) //De String a Int, en base 10 y tamaño de bits 64

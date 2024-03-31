@@ -23,12 +23,217 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {},
+    "paths": {
+        "/user/delete/{id}": {
+            "delete": {
+                "description": "Endpoint para eliminar por completo un usuario en la tabla \"users\" a través de su ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Borrado de un usuario",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/user/get": {
+            "get": {
+                "description": "Endpoint para recoger todos los datos de un único usuario en la tabla \"users\" a través de su ID",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Obtención de un usuario",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/post": {
+            "post": {
+                "description": "Endpoint para recoger todos los datos de un único usuario en la tabla \"users\" a través de su ID",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Obtención de un usuario",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/update": {
+            "patch": {
+                "description": "Endpoint para actualizar los datos de un usuario en la tabla \"users\"",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Actualización de un usuario",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/create": {
+            "post": {
+                "description": "Endpoint para crear un nuevo registro en la tabla \"users\"",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Creación de usuarios",
+                "parameters": [
+                    {
+                        "description": "Información del usuario a crear",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.User"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.User"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/get": {
+            "get": {
+                "description": "Endpoint para recoger todos los datos de los usuarios en la tabla \"users\"",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Obtención de usuarios",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.User"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/post": {
+            "post": {
+                "description": "Endpoint para recoger todos los datos de los usuarios en la tabla \"users\"",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Obtención de usuarios",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.User"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    },
     "securityDefinitions": {
         "BasicAuth": {
             "type": "basic"
         }
     },
+    "tags": [
+        {
+            "description": "Endpoints para el manejo y control de los usuarios en la plataforma.",
+            "name": "Usuarios",
+            "externalDocs": {
+                "description": "Best example documentation",
+                "url": "https://example.com"
+            }
+        }
+    ],
     "externalDocs": {
         "description": "OpenAPI",
         "url": "https://swagger.io/resources/open-api/"
@@ -38,8 +243,8 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
-	BasePath:         "/api/v1",
+	Host:             "localhost:8081",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",
 	Description:      "This is a sample server celler server.",
